@@ -1,6 +1,6 @@
 .slide-btn {
-  display: flex;
-  place-content: center;
+  display: grid;
+  place-items: center;
   position: absolute;
   background: rgba(255, 255, 255, 0.8);
   opacity: 0;
@@ -19,11 +19,11 @@
   }
   &--prev {
     left: 0;
-    padding-right: 1.4em;
+    padding-right: 0.8em;
   }
   &--next {
     right: 0;
-    padding-left: 1.4em;
+    padding-left: 0.8em;
   }
   &:not(:disabled) {
     cursor: pointer;
