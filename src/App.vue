@@ -1,40 +1,52 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-    <ul>
-      <li v-for="quote in quotes" :key="quote.text">
-        {{ quote.text }} - {{ quote.author }}
-      </li>
-    </ul>
-  </div>
+  <main class="full-screen">
+    <QuoteBox
+      v-if="quotes.length"
+      :text="quote.text"
+      :author="quote.author"
+      @prev-handler="currentQuote = currentQuote - 1"
+      @next-handler="currentQuote = currentQuote + 1"
+    >
+      <template v-slot:controls="{ on }">
+        <SlideBtn
+          type="prev"
+          aria-label="previous quote"
+          @click="on.prevHandler"
+          :disabled="currentQuote === 0"
+        />
+        <SlideBtn
+          type="next"
+          aria-label="next quote"
+          @click="on.nextHandler"
+          :disabled="currentQuote === quotes.length - 1"
+        />
+      </template>
+    </QuoteBox>
+  </main>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import QuoteBox from '@/components/QuoteBox';
+import SlideBtn from '@/components/SlideBtn';
 import Axios from 'axios';
 export default {
   name: 'App',
-  components: {
-    HelloWorld,
-  },
+  components: { QuoteBox, SlideBtn },
   data: () => ({
     quotes: [],
+    currentQuote: 0,
   }),
   async created() {
     const response = await Axios.get('getQuotes');
     this.quotes = response.data.quotes;
   },
+  methods: {},
+  computed: {
+    quote() {
+      return this.quotes[this.currentQuote];
+    },
+  },
 };
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style lang="scss"></style>
