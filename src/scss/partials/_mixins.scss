@@ -1,0 +1,35 @@
+@mixin backgroundImg($img, $minHeight: 100vh, $pos: center center) {
+  background: linear-gradient(
+      to bottom,
+      rgba($darkblue, 0) 40%,
+      rgba($darkblue, 0.9) 80%
+    ),
+    url($img);
+  background-repeat: no-repeat;
+  background-position: $pos;
+  background-size: cover;
+  min-height: $minHeight;
+}
+
+@mixin clearfix {
+  &::before,
+  &::after {
+    content: '';
+    display: table;
+  }
+  &::after {
+    clear: both;
+  }
+}
+
+@mixin break($args...) {
+  @if length($args) == 1 {
+    @media (min-width: nth($args, 1)) {
+      @content;
+    }
+  } @else {
+    @media (min-width: nth($args, 1)) and (max-width: nth($args, 2)) {
+      @content;
+    }
+  }
+}

@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import App from './App.vue';
+
+import '@/scss/main.scss';
+
 import Axios from 'axios';
 
 Axios.defaults.baseURL = '.netlify/functions';

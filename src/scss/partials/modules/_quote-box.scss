@@ -1,0 +1,60 @@
+.quote-box {
+  display: flex;
+  color: $primary;
+  font-family: $font-family-body;
+  font-style: italic;
+  padding: 1rem 0;
+  overflow: hidden;
+  width: clamp(20ch, 85%, 40ch);
+  font-size: clamp(18px, 3vw, 40px);
+  line-height: 1.1;
+  position: relative;
+  &::before,
+  &::after {
+    position: absolute;
+    content: '';
+    width: 87%;
+    right: 0;
+  }
+  &::before {
+    border-top: 4px solid $primary;
+    right: 0;
+    top: 0;
+  }
+  &::after {
+    border-bottom: 4px solid $primary;
+    left: 0;
+    bottom: 0;
+  }
+}
+
+.quote-box__quote {
+  line-height: 0.6;
+  font-family: $font-family-display;
+  font-style: normal;
+  color: white;
+  float: left;
+  font-size: 600%;
+  padding-right: 0.2rem;
+  &--close {
+    align-self: end;
+    align-self: flex-end;
+    margin-bottom: -0.5em;
+    padding-left: 0.1em;
+  }
+}
+
+.quote-box {
+  blockquote,
+  figure {
+    margin: 0;
+  }
+  figcaption {
+    text-align: right;
+    color: white;
+    font-style: normal;
+    &::before {
+      content: '–';
+    }
+  }
+}

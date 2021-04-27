@@ -1,0 +1,26 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  font-size: 20px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family-body;
+  background-color: $background;
+}
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+@for $i from 1 through 4 {
+  h#{$i} {
+    font-family: $font-family-display;
+    font-weight: normal;
+    color: $secondary;
+  }
+}
