@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "netlify-lambda build src/lambda && vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "dev": "netlify dev -p 9000 -f src/lambda"
+    "dev": "netlify dev -p 9000 -f src/lambda",
+    "deploy": "npm run build && netlify deploy -p "
   },
   "dependencies": {
     "axios": "^0.21.1",
