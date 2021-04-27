@@ -47,9 +47,11 @@
 .quote-box {
   blockquote,
   figure {
+    width: 100%;
     margin: 0;
   }
   figcaption {
+    margin-top: 2em;
     text-align: right;
     color: white;
     font-style: normal;
