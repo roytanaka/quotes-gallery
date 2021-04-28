@@ -1,12 +1,6 @@
 <template>
   <main class="full-screen" @keypress.left="currentQuote = currentQuote + 1">
-    <transition
-      @before-enter="beforeEnter"
-      @enter="enter"
-      @leave="leave"
-      :css="false"
-      mode="out-in"
-    >
+    <transition @enter="enter" @leave="leave" :css="false" mode="out-in">
       <QuoteBox
         :key="currentQuote"
         v-if="quotes.length"
@@ -35,7 +29,7 @@
 </template>
 
 <script>
-import { gsap, CSSRulePlugin, TextPlugin } from 'gsap/all';
+import gsap from 'gsap';
 import QuoteBox from '@/components/QuoteBox';
 import SlideBtn from '@/components/SlideBtn';
 import Axios from 'axios';
@@ -45,11 +39,6 @@ export default {
   data: () => ({
     quotes: [],
     currentQuote: 0,
-    blockquote: null,
-    frames: null,
-    quoteChar: null,
-    figcaption: null,
-    button: null,
   }),
   async created() {
     const response = await Axios.get('getQuotes');
@@ -62,69 +51,36 @@ export default {
     });
   },
   methods: {
-    beforeEnter(el) {
-      this.blockquote = el.querySelector('blockquote');
-      this.frames = el.querySelectorAll('.frame');
-      this.quoteChar = el.querySelectorAll('.quote-box__quote');
-      this.figcaption = el.querySelector('figcaption');
-      gsap.from(this.blockquote, {
-        rotationX: 90,
+    enter(el, done) {
+      const blockquote = el.querySelector('blockquote');
+      const frames = el.querySelectorAll('.frame');
+      const figcaption = el.querySelector('figcaption');
+      const quoteChar = el.querySelectorAll('.quote-box__quote');
+
+      const tl = gsap.timeline({
+        onComplete: done,
+        defaults: { duration: 0.8, ease: 'sine.in' },
       });
-      gsap.from(this.frames, {
-        width: 0,
-      });
-      gsap.from(this.quoteChar, {
-        yPercent: 100,
-      });
-      gsap.from(this.figcaption, {
-        xPercent: 200,
+
+      tl.from(frames, { width: 0 }, '+=0')
+        .from(quoteChar[0], { opacity: 0, rotate: -135 }, '-=0.1')
+        .from(quoteChar[1], { opacity: 0, rotate: 135 }, '<')
+        .from(
+          blockquote,
+          { opacity: 0, yPercent: -20, ease: 'power1.out' },
+          '-=0.3'
+        )
+        .from(
+          figcaption,
+          { opacity: 0, xPercent: -10, ease: 'power3.out', duration: 1.5 },
+          '<'
+        );
+    },
+    leave(el, done) {
+      gsap.to(el, {
         opacity: 0,
-      });
-    },
-    enter(_, done) {
-      const tl = gsap.timeline();
-      tl.to(this.blockquote, {
-        duration: 0.85,
-        rotationX: 0,
-        ease: 'power1',
-        onComplete: done,
-      }).to(this.frames, { width: '87%', duration: 0.7, ease: 'back.out' }, 0);
-      tl.play();
-    },
-    leave(_, done) {
-      const tl = gsap.timeline();
-      tl.to(this.blockquote, {
-        duration: 0.5,
-        rotationX: -90,
-        ease: 'ease',
         onComplete: done,
       });
-      tl.to(
-        this.frames[0],
-        { xPercent: -200, duration: 1, ease: 'power1.out' },
-        0
-      );
-      tl.to(
-        this.frames[1],
-        { xPercent: 200, duration: 1, opacity: 0, ease: 'power1.out' },
-        0
-      );
-      tl.to(
-        this.quoteChar,
-        {
-          scale: 0,
-        },
-        0
-      );
-      tl.to(
-        this.figcaption,
-        {
-          xPercent: -200,
-          opacity: 0,
-        },
-        0
-      );
-      tl.play();
     },
   },
   computed: {

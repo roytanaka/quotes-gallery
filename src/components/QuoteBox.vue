@@ -4,7 +4,7 @@
     <slot name="controls" :on="{ nextHandler, prevHandler }"></slot>
     <span class="quote-box__quote" aria-hidden="true">“</span>
     <figure>
-      <blockquote>
+      <blockquote class="quote-box__text">
         {{ text }}
       </blockquote>
       <figcaption v-if="author">{{ author }}</figcaption>
