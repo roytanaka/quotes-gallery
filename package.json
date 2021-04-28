@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "gsap": "^3.6.1",
     "netlify-lambda": "^2.0.5",
     "vue": "^2.6.11"
   },

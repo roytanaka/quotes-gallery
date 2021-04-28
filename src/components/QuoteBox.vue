@@ -1,5 +1,6 @@
 <template>
   <section class="quote-box">
+    <div class="frame top"></div>
     <slot name="controls" :on="{ nextHandler, prevHandler }"></slot>
     <span class="quote-box__quote" aria-hidden="true">“</span>
     <figure>
@@ -11,6 +12,7 @@
     <span class="quote-box__quote quote-box__quote--close" aria-hidden="true"
       >”</span
     >
+    <div class="frame bottom"></div>
   </section>
 </template>
 

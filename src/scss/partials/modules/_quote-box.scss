@@ -4,24 +4,22 @@
   font-family: $font-family-body;
   font-style: italic;
   padding: 1rem 0;
-  overflow: hidden;
   width: clamp(20ch, 85%, 40ch);
   font-size: clamp(18px, 3vw, 40px);
   line-height: 1.1;
   position: relative;
-  &::before,
-  &::after {
+  .frame {
     position: absolute;
     content: '';
     width: 87%;
     right: 0;
   }
-  &::before {
+  .frame.top {
     border-top: 4px solid $primary;
     right: 0;
     top: 0;
   }
-  &::after {
+  .frame.bottom {
     border-bottom: 4px solid $primary;
     left: 0;
     bottom: 0;
