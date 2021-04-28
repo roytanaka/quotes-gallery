@@ -41,7 +41,7 @@ export default {
     currentQuote: 0,
   }),
   async created() {
-    const response = await Axios.get('getQuotes');
+    const response = await Axios.post('getQuotes');
     this.quotes = response.data.quotes;
   },
   mounted() {
@@ -102,7 +102,7 @@ export default {
     },
     async currentQuote(val) {
       if (val === this.quotes.length - 5) {
-        const response = await Axios.get('getQuotes?length=5');
+        const response = await Axios.post('getQuotes', { count: 5 });
         this.quotes.push(...response.data.quotes);
       }
     },

@@ -1,6 +1,9 @@
 const Axios = require('axios');
 
 const handler = async function (event) {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 400 };
+  }
   try {
     const response = await Axios('https://type.fit/api/quotes', {
       headers: { Accept: 'application/json' },
@@ -9,15 +12,21 @@ const handler = async function (event) {
       return { statusCode: response.status, body: response.statusText };
     }
     const { data } = await response;
+    let body;
+    try {
+      body = JSON.parse(event.body);
+    } catch (error) {
+      body = { count: 10 };
+    }
 
-    const length = parseInt(event.queryStringParameters.length) || 10;
-    const randomStart = Math.floor(Math.random() * (data.length - length));
+    const count = body.count || 10;
+    const randomStart = Math.floor(Math.random() * (data.length - count));
 
-    const quotes = data.slice(randomStart, randomStart + length);
+    const quotes = data.slice(randomStart, randomStart + count);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ quotes, startIndex: randomStart, length }),
+      body: JSON.stringify({ quotes, startIndex: randomStart, count }),
     };
   } catch (error) {
     // output to netlify function log
