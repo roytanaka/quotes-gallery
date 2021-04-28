@@ -1,5 +1,11 @@
 <template>
-  <section class="quote-box">
+  <section
+    class="quote-box"
+    v-touch:swipe.left="nextHandler"
+    v-touch:swipe.bottom="nextHandler"
+    v-touch:swipe.right="prevHandler"
+    v-touch:swipe.top="prevHandler"
+  >
     <div class="frame top"></div>
     <slot name="controls" :on="{ nextHandler, prevHandler }"></slot>
     <span class="quote-box__quote" aria-hidden="true">“</span>

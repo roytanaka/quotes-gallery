@@ -36,3 +36,9 @@
 .quote-box:hover .slide-btn:not(:disabled) {
   opacity: 0.2;
 }
+
+@media (hover: none) {
+  .slide-btn {
+    display: none;
+  }
+}
