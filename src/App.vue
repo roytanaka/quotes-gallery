@@ -14,13 +14,13 @@
             type="prev"
             aria-label="previous quote"
             @click="on.prevHandler"
-            :disabled="currentQuote === 0"
+            :disabled="isFirstQuote"
           />
           <SlideBtn
             type="next"
             aria-label="next quote"
             @click="on.nextHandler"
-            :disabled="currentQuote === quotes.length - 1"
+            :disabled="isLastQuote"
           />
         </template>
       </QuoteBox>
@@ -46,8 +46,10 @@ export default {
   },
   mounted() {
     window.addEventListener('keyup', (e) => {
-      if (e.key === 'ArrowRight') this.currentQuote = this.currentQuote + 1;
-      if (e.key === 'ArrowLeft') this.currentQuote = this.currentQuote - 1;
+      if (e.key === 'ArrowRight' && !this.isLastQuote)
+        this.currentQuote = this.currentQuote + 1;
+      if (e.key === 'ArrowLeft' && !this.isFirstQuote)
+        this.currentQuote = this.currentQuote - 1;
     });
   },
   methods: {
@@ -87,10 +89,22 @@ export default {
     quote() {
       return this.quotes[this.currentQuote];
     },
+    isLastQuote() {
+      return this.currentQuote === this.quotes.length - 1;
+    },
+    isFirstQuote() {
+      return this.currentQuote === 0;
+    },
   },
   watch: {
     quote() {
       document.title = `A quote by ${this.quote.author || 'Anonymous'}`;
+    },
+    async currentQuote(val) {
+      if (val === this.quotes.length - 5) {
+        const response = await Axios.get('getQuotes?length=5');
+        this.quotes.push(...response.data.quotes);
+      }
     },
   },
 };
