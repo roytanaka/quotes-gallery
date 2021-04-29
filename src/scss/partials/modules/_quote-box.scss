@@ -8,6 +8,7 @@
   font-size: clamp(18px, 3vw, 40px);
   line-height: 1.1;
   position: relative;
+  user-select: none;
   .frame {
     position: absolute;
     content: '';
@@ -27,7 +28,6 @@
 }
 
 .quote-box__quote {
-  user-select: none;
   line-height: 0.6;
   font-family: $font-family-display;
   font-style: normal;
