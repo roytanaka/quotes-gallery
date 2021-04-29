@@ -1,5 +1,8 @@
 <template>
-  <main class="full-screen" @keypress.left="currentQuote = currentQuote + 1">
+  <main class="full-screen">
+    <transition name="spinner">
+      <SpinnerLoader v-if="loading" />
+    </transition>
     <transition @enter="enter" @leave="leave" :css="false" mode="out-in">
       <QuoteBox
         :key="currentQuote"
@@ -30,18 +33,22 @@
 
 <script>
 import gsap from 'gsap';
+import Axios from 'axios';
 import QuoteBox from '@/components/QuoteBox';
 import SlideBtn from '@/components/SlideBtn';
-import Axios from 'axios';
+import SpinnerLoader from '@/components/SpinnerLoader';
 export default {
   name: 'App',
-  components: { QuoteBox, SlideBtn },
+  components: { QuoteBox, SlideBtn, SpinnerLoader },
   data: () => ({
+    loading: true,
     quotes: [],
     currentQuote: 0,
   }),
   async created() {
+    this.loading = true;
     const response = await Axios.post('getQuotes');
+    this.loading = false;
     this.quotes = response.data.quotes;
   },
   mounted() {
@@ -110,4 +117,13 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.spinner-enter-active,
+.spinner-leave-active {
+  transition: opacity 0.3s;
+}
+.spinner-enter,
+.spinner-leave-to {
+  opacity: 0;
+}
+</style>
